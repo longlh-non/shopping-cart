@@ -1,11 +1,30 @@
-import React from "react";
+import useCart from "../hooks/useCart"
 
-type PropsTypes = {
-  viewCart: boolean;
-};
+type PropsType = {
+    viewCart: boolean,
+}
 
-const Footer = ({ viewCart }: PropsTypes) => {
-  return <div>Footer</div>;
-};
+const Footer = ({ viewCart }: PropsType) => {
+    const { totalItems, totalPrice } = useCart()
 
-export default Footer;
+    const year: number = new Date().getFullYear()
+
+    const pageContent = viewCart
+        ? <p>Shopping Cart &copy; {year}</p>
+        : (
+            <>
+                <p>Total Items: {totalItems}</p>
+                <p>Total Price: {totalPrice}</p>
+                <p>Shopping Cart &copy; {year}</p>
+            </>
+        )
+
+    const content = (
+        <footer className="footer">
+            {pageContent}
+        </footer>
+    )
+
+    return content
+}
+export default Footer

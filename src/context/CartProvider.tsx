@@ -20,17 +20,17 @@ const REDUCER_ACTION_TYPE = {
 
 export type ReducerActionType = typeof REDUCER_ACTION_TYPE;
 
-export type ReducerACtion = {
+export type ReducerAction = {
   type: string;
   payload?: CartItemType;
 };
 
 const reducer = (
   state: CartStateType,
-  action: ReducerACtion
+  action: ReducerAction
 ): CartStateType => {
   switch (action.type) {
-    case REDUCER_ACTION_TYPE.ADD:
+    case REDUCER_ACTION_TYPE.ADD:{
       if (!action.payload)
         throw new Error("action.payload missing in ADD action");
 
@@ -46,8 +46,8 @@ const reducer = (
 
       const qty = itemExists ? itemExists.qty + 1 : 1;
       
-      return { ...state, cart: [...filteredItem, { sku, price, name, qty }] };
-    case REDUCER_ACTION_TYPE.REMOVE:
+      return { ...state, cart: [...filteredItem, { sku, price, name, qty }] };}
+    case REDUCER_ACTION_TYPE.REMOVE:{
       if (!action.payload)
         throw new Error("action.payload missing in REMOVE action");
 
@@ -57,9 +57,9 @@ const reducer = (
         (item) => item.sku !== sku
       );
 
-      return { ...state, cart: [...filteredItem] };
+      return { ...state, cart: [...filteredItem] };}
 
-    case REDUCER_ACTION_TYPE.QUANTITY:
+    case REDUCER_ACTION_TYPE.QUANTITY:{
       if (!action.payload)
         throw new Error("action.payload missing in QUANTITY action");
 
@@ -70,14 +70,14 @@ const reducer = (
           (item) => item.sku === sku
         );
 
-        if (!itemExists) throw new Error('Item not exist in order to update quantity';)
+        if (!itemExists) throw new Error('Item not exist in order to update quantity');
 
         const filteredItem: CartItemType[] = state.cart.filter(
             (item) => item.sku !== sku
           );
         const updatedItem = {...itemExists, qty}
 
-      return { ...state, cart: [...filteredItem, updatedItem] };
+      return { ...state, cart: [...filteredItem, updatedItem] };}
 
     case REDUCER_ACTION_TYPE.SUBMIT:
         return { ...state, cart: [] };
