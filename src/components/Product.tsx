@@ -41,6 +41,10 @@ const Product = ({
   return content;
 };
 
+
+// function that accepts 2 arguments: the component's previous props, and its new props => should return true if the old and new props are equal
+// otherwise returns false
+// by default, React will compare each prop with Object.is
 function areProductsEqual(
   { product: prevProduct, inCart: prevInCart }: PropsType,
   { product: nextProduct, inCart: nextInCart }: PropsType
@@ -53,6 +57,15 @@ function areProductsEqual(
   );
 }
 
+// memo lets you skip re-rendering a component when its props are unchanged
+// memo returns a new React component
+// It behaves the same as the component provided to memo except that React will not always re-render it
+// When its parent is being re-rendered unless its props have changed
 const MemoizedProduct = memo<typeof Product>(Product, areProductsEqual);
 
 export default MemoizedProduct;
+
+// components still re-render when its own state changes
+// memoization only has to do with props that are passed to the component from its parent.
+// if you set a state variable to its current value => React will kip re-rendering your component even without memo
+// you may still see your component function being called extra time, but the result will be discarded
